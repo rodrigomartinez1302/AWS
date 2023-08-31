@@ -1,0 +1,11 @@
+una vez conectado con la instancia
+
+actualizo los paquetes de linux
+yum update
+
+python esta instalado pip no
+
+yum python3-pip
+
+check pip installation
+python3 -m pip
