@@ -1,0 +1,7 @@
+
+@mixin flexible ($dis, $f_direction, $j_content, $f_wrap) {
+    display: $dis;
+    flex-direction: $f_direction;
+    justify-content: $j_content;
+    flex-wrap: $f_wrap;
+}

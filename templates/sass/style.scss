@@ -1,0 +1,483 @@
+/* asi se comenta en ccs */
+
+/* en ccs se habla de selectores no de etiqteas
+selector {
+    propiedad:valor;
+    }
+*/
+
+/*
+no se recomineda usar mas de 2 fuentes en todo el proyecto 
+ */
+@import url('https://fonts.googleapis.com/css2?family=Combo&family=Libre+Baskerville&family=Roboto:ital,wght@1,100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Combo&family=Libre+Baskerville:ital@0;1&family=Ms+Madi&family=Roboto:ital,wght@1,100&display=swap');
+@import "mixin";
+@import "variables";
+
+/*reseteo de propiedades*/
+html {
+    font-size: 62.5%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'HK Grotesk wf,sans-serif';
+    list-style-type: none;
+    color: black;
+    text-decoration: none;
+}
+
+header {
+    grid-area: header;
+}
+
+main {
+    grid-area: main;
+}
+
+footer {
+    grid-area: footer;
+}
+
+body {
+    gap: 2px;
+    height: 100vh;
+    display: grid;
+    align-content: stretch;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
+}
+
+.mainNav {
+    grid-area: mainNav;
+}
+
+.signNav {
+    grid-area: signNav;
+}
+
+.slogan {
+    grid-area: slogan;
+}
+
+header {
+    z-index: 2;
+    position: sticky;
+    top: 0;
+    border-bottom: 3px solid white;
+    background-image: url('../img/headerBackground.JPG');
+    background-size: cover;
+    background-position: right;
+    background-repeat: none;
+    height: fit-content;
+    display: grid;
+    grid-template-areas:
+        "mainNav mainNav signNav"
+        "slogan  slogan slogan";
+
+    a {
+        color: white;
+        text-decoration: none;
+        transition: 1.5s;
+        border-bottom: 2.5px solid transparent;
+        height: fit-content;
+        font-size: 3.6vw;
+
+        &:hover {
+            border-color: rgb(238, 89, 230);
+            color: white;
+        }
+    }
+}
+
+.slogan {
+    color: white;
+    font-family: 'Ms Madi', cursive;
+    margin-left: 40px;
+    margin-bottom: 10px;
+    font-size: 8vw;
+}
+
+.rowNav {
+    padding: 1.8px;
+    margin: 10px 3px 10px 3px;
+    @include flexible(flex, row, flex-start, wrap)
+}
+
+.columnNav {
+    margin: 3px;
+}
+
+.signNav .rowNav {
+    margin: 10px 3px 10px 3px;
+    @include flexible(flex, row, flex-end, wrap)
+}
+
+
+.photoCategories {
+    z-index: 1;
+    margin: 5px 2px 5px 2px;
+    @include flexible(flex, row, space-around, wrap);
+    background-color: $backgroundColor;
+
+    img {
+        width: 23vw;
+        height: 36vw;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}
+
+#aImg6 {
+    display: none;
+}
+
+#aImg12 {
+    display: none;
+}
+
+#aImg5 {
+    display: none;
+}
+
+#aImg11 {
+    display: none;
+}
+
+h2 {
+    font-family: 'Ms Madi', cursive;
+    font-size: 6vw;
+    color: black;
+    margin-bottom: 5px;
+    margin-top: 5px;
+
+    a {
+        font-family: 'Ms Madi', cursive;
+        text-decoration: none;
+        transition: 1.5s;
+        border-bottom: 2.5px solid green;
+
+    }
+}
+
+h3 {
+    font-size: 4vw;
+    color: black;
+    font-weight: normal;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.content {
+    padding: 3vh 5px 3vh 5px;
+    background-color: $backgroundColor;
+    margin: 5px 0px 5px 0px;
+
+    p {
+        font-size: $fontSize;
+        margin-bottom: 5vh;
+    }
+
+    h2 {
+        a {
+            color: #0080c8;
+
+            &:hover {
+                border-color: rgb(238, 89, 230);
+            }
+        }
+    }
+}
+
+.text-center {
+    height: 100vh;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 14px;
+
+    .sigIn {
+        font-family: 'Ms Madi', cursive;
+        font-size: 80px;
+    }
+
+    .checkbox {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 12px;
+    }
+}
+
+.signButtons {
+    display: flex;
+    gap: 4px;
+}
+
+.portfolio {
+    padding: 3vh 5px 3vh 5px;
+    background-color: $backgroundColor;
+    font-size: $fontSize;
+    padding: 5px;
+
+    .portfolioForm {
+        padding-top: 5px;
+        @include flexible(flex, column, flex-start, wrap);
+
+        .datePicker {
+            width: $widthFormElement;
+            margin-bottom: 10px;
+        }
+
+        .category {
+            width: $widthFormElement;
+            margin-bottom: 10px;
+        }
+
+        .textArea {
+            width: $widthFormElement;
+            margin-bottom: 10px;
+        }
+
+        .formElement {
+            margin-bottom: 10px;
+            width: $widthFormElement;
+            font-size: $fontSize;
+        }
+
+        .form-label {
+            margin-bottom: 0px;
+            width: 50vw;
+
+        }
+
+        .formButtons {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 10px;
+
+            a {
+                font-size: $fontSize;
+            }
+        }
+
+        textarea {
+            font-size: $fontSize;
+        }
+
+    }
+}
+
+footer {
+    .socialNetworks {
+        background: linear-gradient(90deg, rgba(2, 0, 36, 0.5) 0%, rgba(25, 74, 7, 0.8) 49%, rgba(0, 0, 0, 0.5) 100%);
+        margin-top: 2px;
+        padding: 5px;
+
+        p {
+            font-size: $fontSize;
+        }
+
+        img {
+            width: 30px;
+            height: 30px;
+        }
+    }
+}
+
+@media (min-width:420px) {
+    header {
+        a {
+            font-size: 2.5vw;
+        }
+    }
+
+    h2 {
+        font-size: 5vw;
+    }
+
+    h3 {
+        font-size: 3.5vw;
+    }
+
+    .content {
+        padding: 3vh 5px 3vh 5px;
+        background-color: $backgroundColor;
+        margin: 5px 0px 5px 0px;
+
+        p {
+            font-size: $fontSize420;
+            margin-bottom: 5vh;
+        }
+    }
+
+    .photoCategories {
+        img {
+            width: 15vw;
+            height: 24vw;
+        }
+    }
+
+    .portfolio {
+        padding: 3vh 5px 3vh 5px;
+        background-color: $backgroundColor;
+        font-size: $fontSize420;
+        padding: 5px;
+
+        .portfolioForm {
+
+            .formButtons {
+                display: flex;
+                gap: 4px;
+                margin-bottom: 5px;
+
+                a {
+                    font-size: $fontSize420;
+                }
+            }
+
+            .formElement {
+                margin-bottom: 10px;
+                font-size: $fontSize420;
+            }
+
+            textarea {
+                font-size: $fontSize420;
+            }
+        }
+    }
+
+    .columnNav {
+        margin: 10px;
+    }
+
+    footer {
+
+        .socialNetworks {
+
+            p {
+                font-size: $fontSize420;
+            }
+
+            img {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    }
+
+    #aImg6 {
+        display: unset;
+    }
+
+    #aImg12 {
+        display: unset;
+    }
+
+    #aImg5 {
+        display: unset;
+    }
+
+    #aImg11 {
+        display: unset;
+    }
+}
+
+@media (min-width:768px) {
+    h2 {
+        font-size: 4vw;
+    }
+
+    h3 {
+        font-size: 3vw;
+    }
+
+    .content {
+        padding: 3vh 5px 3vh 5px;
+        background-color: $backgroundColor;
+        margin: 5px 0px 5px 0px;
+
+        p {
+            font-size: $fontSize768;
+            margin-bottom: 5vh;
+        }
+    }
+
+    .portfolio {
+        padding: 3vh 5px 3vh 5px;
+        background-color: $backgroundColor;
+        font-size: $fontSize768;
+        padding: 5px;
+
+        .portfolioForm {
+
+            .formButtons {
+                display: flex;
+                gap: 4px;
+                margin-bottom: 5px;
+
+                a {
+                    font-size: $fontSize768;
+                }
+            }
+
+            .formElement {
+                margin-bottom: 10px;
+                font-size: $fontSize768;
+            }
+
+            textarea {
+                font-size: $fontSize768;
+            }
+        }
+    }
+
+    .columnNav {
+        margin: 15px;
+    }
+
+    footer {
+        .socialNetworks {
+            p {
+                font-size: $fontSize768;
+            }
+
+            img {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    }
+
+    .photoCategories {
+        img {
+            width: 16vw;
+            height: 24vw;
+        }
+    }
+
+    #aImg6 {
+        display: unset;
+    }
+
+    #aImg12 {
+        display: unset;
+    }
+
+    #aImg5 {
+        display: unset;
+    }
+
+    #aImg11 {
+        display: unset;
+    }
+}
