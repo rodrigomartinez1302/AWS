@@ -9,3 +9,8 @@ yum python3-pip
 
 check pip installation
 python3 -m pip
+
+instalo git
+yum install git
+
+instale fastapi y uvicorn
