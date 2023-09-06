@@ -5,15 +5,23 @@ from roboflow import Roboflow
 from PIL import Image, ImageDraw, ImageFont
 import uvicorn
 import os
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 rf = Roboflow(api_key="1O1S51rNvyKVHyNejQyh")
 project = rf.workspace().project("surfer-spotting")
 model = project.version(2).model
 app = FastAPI()
 
+# Serve static files from the "static" directory
+app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/images_infered", StaticFiles(directory="images_infered"), name="images_infered")
+
 def save_with_bbox_renders(img):
     file_name = os.path.basename(img.filename)
-    img.save('./images_infered/' + file_name)
+    path = './images_infered/'+ file_name
+    img.save(path)
+    return file_name
 
 def draw_boxes(box, x0, y0, img, class_name, surfer_count):
     # OPTIONAL - color map, change the key-values for each color to make the
@@ -38,6 +46,10 @@ def draw_boxes(box, x0, y0, img, class_name, surfer_count):
 
     return img
 
+@app.get("/")
+async def read_root():
+    return FileResponse("static/index.html")
+
 @app.post("/process-image/")
 async def process_image(file: UploadFile):
     # Create a temporary file to save the uploaded image
@@ -45,26 +57,24 @@ async def process_image(file: UploadFile):
         temp_image.write(file.file.read())
 
     # Perform inference and annotation
-    predictions, annotated_image = predict("temp_image.png")
+    predictions, file_name = predict("temp_image.png")
 
-    # Convert the annotated image to PNG bytes
-    image_bytes = io.BytesIO()
-    annotated_image.save(image_bytes, format="PNG")
-    image_binary = image_bytes.getvalue()
-
+    # Save the annotated image with the same filename in the "images_infered" directory
+    
     # Gather additional information
     surfer_count = len(predictions)
 
-    # Return the annotated image (as base64) and information
+    # Return the path to the annotated image (relative to the project directory) and information
     return {
         "surfer_count": surfer_count,
         "predictions": predictions,
+        "annotated_image": file_name,
     }
-
 def predict(image_path):
     predictions = model.predict(image_path, confidence=30, overlap=50).json()['predictions']
 
     newly_rendered_image = Image.open(image_path)
+    file_name = None
     # RENDER
     # for each detection, create a crop and convert into CLIP encoding
     for prediction in predictions:
@@ -79,9 +89,9 @@ def predict(image_path):
         
         surfers_count = len(predictions)
         newly_rendered_image = draw_boxes(box, x0 , y0, newly_rendered_image, prediction['class'], surfers_count)
-        save_with_bbox_renders(newly_rendered_image)
+        file_name = save_with_bbox_renders(newly_rendered_image)
         
-    return predictions, newly_rendered_image
+    return predictions, file_name
 
 if __name__ == "__main__":
     # pip install python-multipart, fastapi, uvicorn

@@ -1,0 +1,1 @@
+curl -X POST -F "file=@/Users/rodrigomartinez/Desktop/python/LineUp/images_example/Emir/image_out0043.png" http://3.94.140.96:8000/process-image/ 

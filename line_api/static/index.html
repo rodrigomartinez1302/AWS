@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Upload Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .btn {
+            border: 2px solid gray;
+            color: gray;
+            background-color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .upload-btn-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+
+        .message {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Upload an Image</h1>
+    <div class="upload-btn-wrapper">
+        <button class="btn">Choose an Image</button>
+        <input type="file" name="file" id="fileInput" accept="image/*" />
+    </div>
+    <p class="message" id="message"></p>
+
+    <!-- Display the annotated image here -->
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <img id="annotatedImage" src="/images/temp_image.png" alt="Annotated Image" style="max-width: 100%; height: auto; display: none;">
+    </div>
+    
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const messageElement = document.getElementById('message');
+        const annotatedImageElement = document.getElementById('annotatedImage');
+
+        fileInput.addEventListener('change', () => {
+            const file = fileInput.files[0];
+            if (file) {
+                messageElement.textContent = 'Uploading...';
+                const formData = new FormData();
+                formData.append('file', file);
+
+                fetch('/process-image/', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        messageElement.textContent = `🏄‍♂️ Surfer Count: ${data.surfer_count}`;
+
+                        // Display the annotated image and set its src attribute
+                        annotatedImageElement.style.display = 'block';
+                        annotatedImageElement.src = `images_infered/${data.annotated_image}`;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        messageElement.textContent = 'An error occurred during upload.';
+                    });
+            } else {
+                messageElement.textContent = 'No file selected.';
+            }
+        });
+    </script>
+</body>
+
+</html>
